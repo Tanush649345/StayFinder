@@ -4,7 +4,7 @@ module.exports.renderSignUpForm = (req,res)=>{
     res.render("./users/signup.ejs");
 }
 
-module.exports.signUp = async(req,res)=>{
+module.exports.signUp = async(req,res,next)=>{
     try{
         let {username,email,password} = req.body;
         let newUser = new User({username,email});
@@ -33,7 +33,10 @@ module.exports.renderLoginForm = (req,res)=>{
 
 module.exports.login = async (req,res)=>{
         req.flash("success","Welcome back to StayFinder!");
-        let redirectUrl = res.locals.redirectUrl || "/listings";
+        let redirectUrl = res.locals.redirectUrl;
+        if(!redirectUrl){
+            redirectUrl = "/listings";
+        }
         res.redirect(redirectUrl);
     }
 
